@@ -1042,7 +1042,11 @@ th.col-hide, td.col-hide{display:table-cell}
 
   <!-- Liga-Picker (erscheint nach Username-Suche) -->
   <div id="league-picker" style="display:none;width:100%;max-width:560px;margin-top:20px"></div>
-  <div style="text-align:center;margin-top:16px;font-family:var(--font-mono);font-size:.7rem;color:var(--muted)"><button onclick="openImpressum()" style="background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:.7rem;cursor:pointer;text-decoration:underline;padding:0">Impressum</button></div>
+  <div style="text-align:center;margin-top:16px;font-family:var(--font-mono);font-size:.7rem;color:var(--muted)">
+    <button onclick="openImpressum()" style="background:none;border:none;color:var(--muted);font-family:var(--font-mono);font-size:.7rem;cursor:pointer;text-decoration:underline;padding:0">Impressum</button>
+    &nbsp;·&nbsp;
+    <a href="https://ko-fi.com/hardygiese" target="_blank" rel="noopener" style="color:#FF5E5B;text-decoration:none;font-weight:700">☕ Unterstützen</a>
+  </div>
 
   <div class="search-features">
     <div class="feat"><span class="feat-dot"></span>Roster-Analyse</div>
@@ -1083,6 +1087,53 @@ th.col-hide, td.col-hide{display:table-cell}
 </div>
 
 <!-- ═══════════════════════ RESULTS PHASE -->
+<!-- Donation Popup -->
+<div id="donation-popup" style="display:none;position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.65);backdrop-filter:blur(6px)"
+  onclick="if(event.target===this)closeDonationPopup()">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:var(--s1);border:1px solid var(--border);border-radius:18px;
+    width:min(440px,92vw);box-shadow:0 24px 64px rgba(0,0,0,.5);overflow:hidden">
+    <!-- Top accent -->
+    <div style="height:4px;background:linear-gradient(90deg,#FF5E5B,#ff8c00)"></div>
+    <div style="padding:28px 28px 24px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:2.8rem;margin-bottom:10px">☕</div>
+        <div style="font-family:var(--font-head);font-weight:900;font-size:1.3rem;margin-bottom:8px">
+          Dieses Tool ist kostenlos
+        </div>
+        <div style="font-family:var(--font-mono);font-size:.82rem;color:var(--text2);line-height:1.7">
+          Der Sleeper League Analyzer wird in meiner Freizeit entwickelt und gepflegt.<br>
+          Wenn er dir beim Gewinnen deiner Liga hilft —<br>
+          <span style="color:var(--text);font-weight:700">über eine kleine Unterstützung freue ich mich sehr.</span>
+        </div>
+      </div>
+      <a href="https://ko-fi.com/hardygiese" target="_blank" rel="noopener"
+        onclick="closeDonationPopup()"
+        style="display:flex;align-items:center;justify-content:center;gap:10px;
+               background:#FF5E5B;color:#fff;font-family:var(--font-head);font-weight:900;
+               font-size:1rem;padding:14px 24px;border-radius:12px;text-decoration:none;
+               transition:opacity .15s;box-shadow:0 4px 18px rgba(255,94,91,.4);margin-bottom:12px"
+        onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+        ☕ &nbsp;Jetzt unterstützen
+      </a>
+      <button onclick="closeDonationPopup()"
+        style="width:100%;padding:10px;background:none;border:1px solid var(--border);
+               border-radius:10px;color:var(--muted);font-family:var(--font-mono);
+               font-size:.78rem;cursor:pointer;transition:border-color .14s"
+        onmouseover="this.style.borderColor='var(--text2)'" onmouseout="this.style.borderColor='var(--border)'">
+        Vielleicht später
+      </button>
+      <div style="text-align:center;margin-top:12px">
+        <label style="font-family:var(--font-mono);font-size:.68rem;color:var(--muted);
+                       cursor:pointer;display:inline-flex;align-items:center;gap:5px">
+          <input type="checkbox" id="donation-no-show" style="cursor:pointer;accent-color:var(--cyan)">
+          Nicht mehr anzeigen
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="results-phase" style="display:none">
   <div class="r-header" id="r-header"></div>
   <div id="inj-alert-bar" style="display:none"></div>
@@ -1096,6 +1147,7 @@ th.col-hide, td.col-hide{display:table-cell}
   <div id="tab-draft"         class="r-tab-content"></div>
   <div id="tab-retro"         class="r-tab-content"></div>
 </div>
+
 
 <!-- Impressum Modal -->
 <div id="settings-overlay" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)" onclick="if(event.target===this)closeSettings()">
@@ -1133,7 +1185,25 @@ th.col-hide, td.col-hide{display:table-cell}
       <div style="margin-top:20px;font-family:var(--font-head);font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px">Externe Datenquellen</div>
       <div style="color:var(--text2);font-size:.82rem">Dieser Analyzer ruft Daten von Drittanbietern ab: <b>Sleeper API</b> (sleeper.com), <b>KeepTradeCut</b> (keeptradecut.com) und <b>FantasyPros</b> (fantasypros.com). Für die Inhalte dieser externen Dienste übernehme ich keine Haftung.</div>
 
-      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted);text-align:center">
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center">
+        <div style="font-family:var(--font-head);font-weight:800;font-size:.85rem;margin-bottom:8px">☕ Dieses Tool ist kostenlos</div>
+        <div style="font-family:var(--font-mono);font-size:.78rem;color:var(--text2);margin-bottom:12px;line-height:1.6">
+          Wenn der Analyzer nützlich ist — über eine kleine Unterstützung freue ich mich sehr.
+        </div>
+        <a href="https://ko-fi.com/hardygiese" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:8px;background:#FF5E5B;color:#fff;
+                 font-family:var(--font-head);font-weight:800;font-size:.9rem;
+                 padding:10px 22px;border-radius:10px;text-decoration:none;
+                 transition:opacity .15s;box-shadow:0 4px 14px rgba(255,94,91,.35)"
+          onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          ☕ Ko-fi — Hardy Giese
+        </a>
+        <div style="font-family:var(--font-mono);font-size:.65rem;color:var(--muted);margin-top:8px">
+          ko-fi.com/hardygiese
+        </div>
+      </div>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:.75rem;color:var(--muted);text-align:center">
         Sleeper League Analyzer · Privates Tool zur Fantasy-Football-Analyse
       </div>
     </div>
@@ -2425,6 +2495,7 @@ function renderAll(){
   renderTradeRetro();
   activateTab('overview');
   window.dispatchEvent(new Event('leagueLoaded'));
+  setTimeout(openDonationPopup, 2500); // show donation popup after load
 }
 function activateTab(tab){
   ['overview','teams','rankings','trade','season','bracket','activity','draft','retro'].forEach(t=>{
@@ -2452,6 +2523,10 @@ function renderHeader(){
         <button class="btn-back" onclick="openSearch()" style="border-color:rgba(0,229,200,.4);color:var(--cyan)">🔍 Suche</button>
         <button class="btn-back" onclick="addLeagueToCompare()" title="Liga zur Vergleichsliste hinzufügen" style="color:var(--muted)">📌 Liga merken</button>
         <button class="btn-back" onclick="openSettings()" style="color:var(--muted)">⚙ Regeln</button>
+        <a href="https://ko-fi.com/hardygiese" target="_blank" rel="noopener"
+          class="btn-back"
+          style="text-decoration:none;border-color:rgba(255,94,91,.5);color:#FF5E5B;font-weight:700"
+          title="Unterstütze den Entwickler">☕ Unterstützen</a>
         <button class="btn-back" onclick="openImpressum()" style="color:var(--muted);font-size:.78rem">⚖ Impressum</button>
       </div>
       <div class="r-tabs">
@@ -6673,6 +6748,27 @@ function renderScoringRulesInto(targetId){
   el.innerHTML=html;
 }
 
+
+// ─────────────────────────────────────────────────── DONATION POPUP
+function openDonationPopup() {
+  const KEY_COUNT = 'slp_support_count';
+  const KEY_SESSION = 'slp_support_session';
+  if (sessionStorage.getItem(KEY_SESSION)) return; // already shown this session
+  const count = parseInt(localStorage.getItem(KEY_COUNT) || '0');
+  if (count >= 3) return; // shown 3x total - stop
+  sessionStorage.setItem(KEY_SESSION, '1');
+  localStorage.setItem(KEY_COUNT, String(count + 1));
+  const el = document.getElementById('donation-popup');
+  if (el) { el.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+}
+function closeDonationPopup() {
+  const el = document.getElementById('donation-popup');
+  if (el) { el.style.display = 'none'; document.body.style.overflow = ''; }
+  if (document.getElementById('donation-no-show')?.checked)
+    localStorage.setItem('slp_support_count', '99');
+}
+window.openDonationPopup  = openDonationPopup;
+window.closeDonationPopup = closeDonationPopup;
 
 function openImpressum()  { $('impressum-overlay').style.display='block'; document.body.style.overflow='hidden'; }
 function closeImpressum() { $('impressum-overlay').style.display='none';  document.body.style.overflow=''; }
